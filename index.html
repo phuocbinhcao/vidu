@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Validate form</title>
+    <link rel="stylesheet" href="script.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <form action="" method="POST" id="form-submit">
+        <div class="form-header">
+          <h2>Đăng ký</h2>
+        </div>
+        <div class="form-body">
+          <div class="form-group">
+              <label for="fullName">Full name:</label>
+            <input type="text" name="fullName" id="fullName" placeholder="eg: Cao Phước Bình"/>
+            <small class="error"></small>
+          </div>
+          <div class="form-group">
+              <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="eg: binh@gmail.com"/>
+            <small class="error"></small>
+          </div>
+          <div class="form-group">
+              <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password"/>
+            <small class="error"></small>
+          </div>
+          <div class="form-group">
+              <label for="confirmPass">Confirm Password:</label>
+            <input type="password" name="confirmPass" id="confirmPass" placeholder="Confirm password"/>
+            <small class="error"></small>
+          </div>
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn btn-submit">Đăng ký</button>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script src="validator.js"></script>
+  <script>
+
+      //
+      Validator({
+          form: "#form-submit",
+          formGroupSelector: ".form-group",
+          errorSelector: ".error",
+          rules: [
+              Validator.isRequired("#fullName"),
+              Validator.isLength("#fullName",3 ),
+              Validator.isRequired("#email"),
+              Validator.isEmail("#email"),
+              Validator.isRequired("#password"),
+              Validator.isLength("#password", 8),
+              Validator.isCheckPass("#password", "Ít nhất 1 ký tự thường, 1 ký tự in hoa, 1 số, 1 ký tự đặc biệt"),
+              Validator.isRequired("#confirmPass"),
+              Validator.isConfirmPass("#confirmPass", function(){
+                  return document.querySelector("#form-submit #password").value;
+              }, "Mật khẩu nhập lại không chính xác."),
+          ],
+
+          onSubmit: function(data){
+            //call API
+            console.log(data);
+          }
+
+      });
+  </script>
+</html>
